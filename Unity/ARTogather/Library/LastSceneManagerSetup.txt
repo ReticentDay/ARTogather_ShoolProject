@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/example/scenes/BuildingBlock.unity
+  isLoaded: 1
+  isActive: 1
