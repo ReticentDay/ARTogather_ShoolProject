@@ -1,0 +1,6 @@
+D:\專題\clienttest\clienttest\bin\Debug\clienttest.exe.config
+D:\專題\clienttest\clienttest\bin\Debug\clienttest.exe
+D:\專題\clienttest\clienttest\bin\Debug\clienttest.pdb
+D:\專題\clienttest\clienttest\obj\Debug\clienttest.exe
+D:\專題\clienttest\clienttest\obj\Debug\clienttest.pdb
+D:\專題\clienttest\clienttest\obj\Debug\clienttest.csprojResolveAssemblyReference.cache

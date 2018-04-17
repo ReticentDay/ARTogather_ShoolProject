@@ -1,0 +1,6 @@
+D:\專題\networktest\networktest\bin\Debug\networktest.exe.config
+D:\專題\networktest\networktest\bin\Debug\networktest.exe
+D:\專題\networktest\networktest\bin\Debug\networktest.pdb
+D:\專題\networktest\networktest\obj\Debug\networktest.csprojResolveAssemblyReference.cache
+D:\專題\networktest\networktest\obj\Debug\networktest.exe
+D:\專題\networktest\networktest\obj\Debug\networktest.pdb
