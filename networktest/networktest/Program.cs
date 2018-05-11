@@ -31,6 +31,7 @@ namespace csharp_multi_threaded_server_socket
                         Console.WriteLine("用戶(" + counter + ")連線成功 !!");
                         handleClient client = new handleClient();
                         client.startClient(mySocket,counter);
+                        
                     }
                 }
                 catch (Exception e)
