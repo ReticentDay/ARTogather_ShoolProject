@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/example/scenes/BuildingBlock.unity
+- path: Assets/example/scenes/BuildingBlockVuforia.unity
   isLoaded: 1
   isActive: 1

@@ -7,6 +7,7 @@ public class rayOnhit : MonoBehaviour {
 
     public GameObject mainControler;
 
+
     // Use this for initialization
     void Start () {
 		

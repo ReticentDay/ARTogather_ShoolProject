@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARTogather", "ARTogather.csproj", "{A274A494-1A7B-2235-D8E5-C92536832B8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARTogather.Editor", "ARTogather.Editor.csproj", "{D031AE48-2932-CFDD-8756-1ECAF423F37F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{A274A494-1A7B-2235-D8E5-C92536832B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A274A494-1A7B-2235-D8E5-C92536832B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A274A494-1A7B-2235-D8E5-C92536832B8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D031AE48-2932-CFDD-8756-1ECAF423F37F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D031AE48-2932-CFDD-8756-1ECAF423F37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D031AE48-2932-CFDD-8756-1ECAF423F37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D031AE48-2932-CFDD-8756-1ECAF423F37F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
