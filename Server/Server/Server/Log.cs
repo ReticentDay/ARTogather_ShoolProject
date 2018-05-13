@@ -22,11 +22,11 @@ namespace Server
         }
         static public void WriteTime(string info)
         {
-            info = "【" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "】" + info;
-            _textbox.Text += info + Environment.NewLine;
-            _textbox.ScrollBars = ScrollBars.Vertical;
-            _textbox.SelectionStart = _textbox.Text.Length;
-            _textbox.ScrollToCaret();
+                info = "【" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "】" + info;
+                _textbox.Text += info + Environment.NewLine;
+                _textbox.ScrollBars = ScrollBars.Vertical;
+                _textbox.SelectionStart = _textbox.Text.Length;
+                _textbox.ScrollToCaret();
         }
     }
 }

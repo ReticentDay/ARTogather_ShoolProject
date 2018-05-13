@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Server;
 
 namespace Server
 {
     public partial class Form1 : Form
     {
+        Server server = new Server();
         public Form1()
         {
             InitializeComponent();
@@ -25,7 +27,13 @@ namespace Server
 
         private void StartButton_Click(object sender, EventArgs e)
         {
+            server.StartServer();
+            //logText.Text = "伺服器啟動!";
+        }
 
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            server.StopServer();
         }
     }
 }
