@@ -16,6 +16,8 @@ namespace Server
         TcpListener myTcpListener;
         Thread startServer;
         ManualResetEvent _shutdownEvent;
+        Socket clientSocket;
+
         public Server()
         {
             
@@ -34,34 +36,40 @@ namespace Server
             theIPAddress = System.Net.IPAddress.Parse(ip);
             myTcpListener = new TcpListener(theIPAddress, port);
             myTcpListener.Start();
-            //Log.WriteTime("Info:通訊埠" + port + "等待用戶端連線...... !!");
+            Log.WriteTime("Info:通訊埠" + port + "等待用戶端連線...... !!");
             int counter = 0;
             do
             {
-                Socket mySocket = myTcpListener.AcceptSocket();
+                clientSocket = myTcpListener.AcceptSocket();
                 if (_shutdownEvent.WaitOne(0)) break;
                 try
                 {
-                    if (mySocket.Connected)
+                    if (clientSocket.Connected)
                     {
                         counter++;
-                        //Log.WriteTime("Info:用戶(" + counter + ")連線成功 !!");
+                        Log.WriteTime("Info:用戶(" + counter + ")連線成功 !!");
                         handleClient client = new handleClient();
-                        client.startClient(mySocket, counter);
+                        client.startClient(clientSocket, counter);
                     }
                 }
                 catch (Exception e)
                 {
-                    //Log.WriteTime("Error:" + e.Message);
-                    mySocket.Close();
                 }
             } while (true);
             
             myTcpListener.Stop();
         }
+
         public void StopServer()
         {
             _shutdownEvent.Set();
+            try
+            {
+                clientSocket.Close();
+            }
+            catch (Exception e) { }
+            myTcpListener.Stop();
+            startServer.Abort();
             startServer.Join();
             startServer = null;
         }

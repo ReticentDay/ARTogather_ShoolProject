@@ -17,7 +17,7 @@ namespace Server
         public Form1()
         {
             InitializeComponent();
-            Log.setLogShow(logText);
+            Log.SetLogShow(logText);
         }
 
         private void Form1_Load(object sender, EventArgs e)

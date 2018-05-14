@@ -10,7 +10,6 @@ namespace Server
 {
     class handleClient
     {
-        ManualResetEvent _shutdownEvent;
         
         Socket clientSocket;
         Thread clientThread;
@@ -28,26 +27,24 @@ namespace Server
             {
                 try
                 {
-                    if (_shutdownEvent.WaitOne(0)) throw new Exception("中斷該使用者");
                     int dataLength;
                     byte[] myBufferBytes = new byte[1000];
                     //取得用戶端寫入的資料
                     dataLength = clientSocket.Receive(myBufferBytes);
-                    //Log.WriteTime("取出用戶端寫入網路資料流的資料內容 :");
-                    //Log.WriteTime(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength) + "\n");
+                    Log.WriteTime("取出用戶端寫入網路資料流的資料內容 :");
+                    Log.WriteTime(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength) + "\n");
                 }
                 catch (Exception e)
                 {
                     clientSocket.Close();
-                   // Log.WriteTime("用戶(" + No + ")已中斷連線");
-                   // Log.WriteTime("Error:"+e.Message);
+                    Log.WriteTime("用戶(" + No + ")已中斷連線");
+                    Log.WriteTime("Error:"+e.Message);
                     break;
                 }
             }
         }
         public void Stop()
         {
-            _shutdownEvent.Set();
             clientThread.Join();
             clientThread = null;
         }
