@@ -13,11 +13,14 @@ namespace Server
 {
     public partial class Form1 : Form
     {
-        Server server = new Server();
-        public Form1()
+        Center _center;
+        broadcast _broadcast;
+        public Form1(Center center,broadcast broadcast)
         {
             InitializeComponent();
             Log.SetLogShow(logText);
+            _center = center;
+            _broadcast = broadcast;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -27,13 +30,18 @@ namespace Server
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            server.StartServer();
+            _center.start();
             //logText.Text = "伺服器啟動!";
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            server.StopServer();
+            _center.stop();
+        }
+
+        private void broadcastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _broadcast.Show();
         }
     }
 }

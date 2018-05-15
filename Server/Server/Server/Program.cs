@@ -14,9 +14,11 @@ namespace Server
         [STAThread]
         static void Main()
         {
+            Center allCenter = new Center();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            broadcast _broadcast = new broadcast(allCenter);
+            Application.Run(new Form1(allCenter,_broadcast));
         }
     }
 }

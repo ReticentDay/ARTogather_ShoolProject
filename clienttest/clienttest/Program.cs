@@ -38,12 +38,12 @@ namespace clienttest
             }
             while(true)
             {
-                String strings = Console.ReadLine();
-                if(strings == "Exit")
-                {
-                    break;
-                }
-                myNetworkClient.WriteData(strings);
+                //String strings = Console.ReadLine();
+                //if(strings == "Exit")
+                //{
+                //    break;
+                //}
+                //myNetworkClient.WriteData(strings);
                 myNetworkClient.ReadData();
             }
         }
@@ -68,11 +68,18 @@ namespace clienttest
         {
             Console.WriteLine("從網路資料流讀取資料 !!");
             //從網路資料流讀取資料
+            myNetworkStream = myTcpClient.GetStream();
             int bufferSize = myTcpClient.ReceiveBufferSize;
             byte[] myBufferBytes = new byte[bufferSize];
             myNetworkStream.Read(myBufferBytes, 0, bufferSize);
             //取得資料並且解碼文字
-            Console.WriteLine(Encoding.ASCII.GetString(myBufferBytes, 0, bufferSize));
+            int i = 0;
+            while (myBufferBytes[i] != 0)
+            {
+                Console.Write(Encoding.ASCII.GetString(myBufferBytes,i,1));
+                i++;
+            }
+            
         }
     }
 }

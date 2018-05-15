@@ -17,6 +17,7 @@ namespace Server
         Thread startServer;
         ManualResetEvent _shutdownEvent;
         Socket clientSocket;
+        List<handleClient> _clientList;
 
         public Server()
         {
@@ -25,6 +26,7 @@ namespace Server
 
         public void StartServer()
         {
+            _clientList = new List<handleClient>();
             startServer = new Thread(new ThreadStart(ServerStart));
             _shutdownEvent = new ManualResetEvent(false);
             startServer.IsBackground = true;
@@ -50,6 +52,7 @@ namespace Server
                         Log.WriteTime("Info:用戶(" + counter + ")連線成功 !!");
                         handleClient client = new handleClient();
                         client.startClient(clientSocket, counter);
+                        _clientList.Add(client);
                     }
                 }
                 catch (Exception e)
@@ -58,6 +61,14 @@ namespace Server
             } while (true);
             
             myTcpListener.Stop();
+        }
+
+        public void SendMessage(string message)
+        {
+            for (int i = 0; i < _clientList.Count(); i++)
+            {
+                _clientList[i].SendMessage(message);
+            }
         }
 
         public void StopServer()

@@ -19,6 +19,7 @@ namespace Server
             this.clientSocket = clientSocket;
             this.No = No;
             clientThread = new Thread(reply);
+            clientThread.IsBackground = true;
             clientThread.Start();
         }
         private void reply()
@@ -42,11 +43,33 @@ namespace Server
                     break;
                 }
             }
+            Stop();
+        }
+        public void SendMessage(string message)
+        {
+            byte[] myBufferBytes = Encoding.UTF8.GetBytes(message);
+            try
+            {
+                clientSocket.Send(myBufferBytes, 0);
+                Log.WriteTime("Info:向用戶(" + No + ")傳送訊息 " + message);
+            }
+            catch (Exception e)
+            {
+            }
         }
         public void Stop()
         {
-            clientThread.Join();
-            clientThread = null;
+            try
+            {
+                clientSocket.Close();
+                clientThread.Abort();
+                clientThread.Join();
+                clientThread = null;
+            }
+            catch (Exception e)
+            {
+                Log.WriteTime("Error:" + e.Message);
+            }
         }
         ~handleClient()
         {
