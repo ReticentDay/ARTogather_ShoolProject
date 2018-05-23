@@ -15,14 +15,18 @@ namespace Server
     {
         Center _center;
         broadcast _broadcast;
+        LoadFile LF;
+
         public Form1(Center center,broadcast broadcast)
         {
             InitializeComponent();
             Log.SetLogShow(logText);
             _center = center;
             _broadcast = broadcast;
+            LF = new LoadFile();
+            //LF.CreatFile("GGININ");
         }
-
+        
         private void Form1_Load(object sender, EventArgs e)
         {
 

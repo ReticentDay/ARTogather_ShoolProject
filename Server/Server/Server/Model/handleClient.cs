@@ -14,14 +14,18 @@ namespace Server
         Socket clientSocket;
         Thread clientThread;
         int No;
-        public void startClient(Socket clientSocket, int No)
+        public delegate void CallAndCatch(string messagem,int no);
+        CallAndCatch _CAC;
+        public void startClient(Socket clientSocket, int No,Server server)
         {
+            _CAC = new CallAndCatch(server.CallAndCatch);
             this.clientSocket = clientSocket;
             this.No = No;
             clientThread = new Thread(reply);
             clientThread.IsBackground = true;
             clientThread.Start();
         }
+
         private void reply()
         {
             while (true)
@@ -34,6 +38,7 @@ namespace Server
                     dataLength = clientSocket.Receive(myBufferBytes);
                     Log.WriteTime("取出用戶端寫入網路資料流的資料內容 :");
                     Log.WriteTime(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength) + "\n");
+                    _CAC.Invoke(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength),No);
                 }
                 catch (Exception e)
                 {

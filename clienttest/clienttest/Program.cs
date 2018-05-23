@@ -38,13 +38,13 @@ namespace clienttest
             }
             while(true)
             {
-                //String strings = Console.ReadLine();
+                String strings = Console.ReadLine();
                 //if(strings == "Exit")
                 //{
                 //    break;
                 //}
-                //myNetworkClient.WriteData(strings);
-                myNetworkClient.ReadData();
+                myNetworkClient.WriteData(strings);
+                //myNetworkClient.ReadData();
             }
         }
 

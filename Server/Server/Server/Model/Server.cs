@@ -8,7 +8,7 @@ using System.Net.Sockets;
 
 namespace Server
 {
-    class Server
+    public class Server
     {
         static int port = 36000;
         static string ip = "127.0.0.1";
@@ -18,7 +18,6 @@ namespace Server
         ManualResetEvent _shutdownEvent;
         Socket clientSocket;
         List<handleClient> _clientList;
-
         public Server()
         {
             
@@ -35,6 +34,7 @@ namespace Server
 
         private void ServerStart()
         {
+            Log.WriteTime("Info:Sever服務已開啟");
             theIPAddress = System.Net.IPAddress.Parse(ip);
             myTcpListener = new TcpListener(theIPAddress, port);
             myTcpListener.Start();
@@ -43,7 +43,6 @@ namespace Server
             do
             {
                 clientSocket = myTcpListener.AcceptSocket();
-                if (_shutdownEvent.WaitOne(0)) break;
                 try
                 {
                     if (clientSocket.Connected)
@@ -51,7 +50,7 @@ namespace Server
                         counter++;
                         Log.WriteTime("Info:用戶(" + counter + ")連線成功 !!");
                         handleClient client = new handleClient();
-                        client.startClient(clientSocket, counter);
+                        client.startClient(clientSocket, counter,this);
                         _clientList.Add(client);
                     }
                 }
@@ -71,18 +70,42 @@ namespace Server
             }
         }
 
+        public void SendMessage(string message, int no)
+        {
+            _clientList[no].SendMessage(message);
+        }
+
+        public void SendMessage(string message, string type)
+        {
+
+        }
+
+        public void CallAndCatch(string message,int no)
+        {
+
+        }
+
         public void StopServer()
         {
-            _shutdownEvent.Set();
             try
             {
                 clientSocket.Close();
+                myTcpListener.Stop();
             }
             catch (Exception e) { }
-            myTcpListener.Stop();
-            startServer.Abort();
-            startServer.Join();
-            startServer = null;
+            try
+            {
+                startServer.Abort();
+                startServer.Join();
+                startServer = null;
+            }
+            catch (Exception e) { }
+
+            Log.WriteTime("Info:Sever服務已被關閉");
+        }
+        ~Server()
+        {
+            StopServer();
         }
     }
 }
