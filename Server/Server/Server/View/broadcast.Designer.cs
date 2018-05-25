@@ -47,21 +47,23 @@
             this.tableLayoutPanel1.Controls.Add(this.sendLabel, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(346, 109);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(461, 136);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // sendButton
             // 
             this.sendButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sendButton.Location = new System.Drawing.Point(3, 75);
+            this.sendButton.Location = new System.Drawing.Point(4, 94);
+            this.sendButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(167, 31);
+            this.sendButton.Size = new System.Drawing.Size(222, 38);
             this.sendButton.TabIndex = 0;
             this.sendButton.Text = "send";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -70,9 +72,10 @@
             // closeButton
             // 
             this.closeButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.closeButton.Location = new System.Drawing.Point(176, 75);
+            this.closeButton.Location = new System.Drawing.Point(234, 94);
+            this.closeButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(167, 31);
+            this.closeButton.Size = new System.Drawing.Size(223, 38);
             this.closeButton.TabIndex = 1;
             this.closeButton.Text = "close";
             this.closeButton.UseVisualStyleBackColor = true;
@@ -82,9 +85,10 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.messageText, 2);
             this.messageText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.messageText.Location = new System.Drawing.Point(3, 39);
+            this.messageText.Location = new System.Drawing.Point(4, 49);
+            this.messageText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.messageText.Name = "messageText";
-            this.messageText.Size = new System.Drawing.Size(340, 22);
+            this.messageText.Size = new System.Drawing.Size(453, 25);
             this.messageText.TabIndex = 2;
             this.messageText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -92,20 +96,22 @@
             // 
             this.sendLabel.AutoSize = true;
             this.sendLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sendLabel.Location = new System.Drawing.Point(3, 0);
+            this.sendLabel.Location = new System.Drawing.Point(4, 0);
+            this.sendLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.sendLabel.Name = "sendLabel";
-            this.sendLabel.Size = new System.Drawing.Size(167, 36);
+            this.sendLabel.Size = new System.Drawing.Size(222, 45);
             this.sendLabel.TabIndex = 3;
             this.sendLabel.Text = "Send The Message";
             this.sendLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // broadcast
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 109);
+            this.ClientSize = new System.Drawing.Size(461, 136);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "broadcast";
             this.Text = "broadcast";
             this.tableLayoutPanel1.ResumeLayout(false);

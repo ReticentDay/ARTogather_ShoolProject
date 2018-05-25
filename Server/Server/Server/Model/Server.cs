@@ -52,6 +52,7 @@ namespace Server
                         handleClient client = new handleClient();
                         client.startClient(clientSocket, counter,this);
                         _clientList.Add(client);
+                        _clientList[0].SendMessage("123");
                     }
                 }
                 catch (Exception e)

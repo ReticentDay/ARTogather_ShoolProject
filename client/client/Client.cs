@@ -1,50 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Net.Sockets;
 
-namespace clienttest
+namespace client
 {
-    class Program
+    public class Client
     {
         //宣告網路資料流變數
         NetworkStream myNetworkStream;
         //宣告 Tcp 用戶端物件
         TcpClient myTcpClient;
-
-        static void Main(string[] args)
+        public void StartClient()
         {
-            Program myNetworkClient = new Program();
-
+            Thread readData;
             //取得主機名稱
-            string hostName ="127.0.0.1";
+            string hostName = "127.0.0.1";
             //取得連線 IP 位址
             int connectPort = 36000;
             //建立 TcpClient 物件
-            myNetworkClient.myTcpClient = new TcpClient();
+            myTcpClient = new TcpClient();
+            readData = new Thread(new ThreadStart(ReadData));
+            readData.Start();
             try
             {
                 //測試連線至遠端主機
-                myNetworkClient.myTcpClient.Connect(hostName, connectPort);
+                myTcpClient.Connect(hostName, connectPort);
                 Console.WriteLine("連線成功 !!\n");
             }
             catch
             {
-                Console.WriteLine
-                           ("主機 {0} 通訊埠 {1} 無法連接  !!", hostName, connectPort);
-                
+                Console.Write("主機 {0} 通訊埠 {1} 無法連接  !!", hostName, connectPort);
+
             }
-            while(true)
+            while (true)
             {
                 String strings = Console.ReadLine();
-                //if(strings == "Exit")
-                //{
-                //    break;
-                //}
-                myNetworkClient.WriteData(strings);
-                //myNetworkClient.ReadData();
+                WriteData(strings);
             }
         }
 
@@ -76,10 +68,10 @@ namespace clienttest
             int i = 0;
             while (myBufferBytes[i] != 0)
             {
-                Console.Write(Encoding.ASCII.GetString(myBufferBytes,i,1));
+                Console.Write(Encoding.ASCII.GetString(myBufferBytes, i, 1));
                 i++;
             }
-            
         }
+        public void GetData(string data) { }
     }
 }

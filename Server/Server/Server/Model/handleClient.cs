@@ -16,7 +16,7 @@ namespace Server
         int No;
         public delegate void CallAndCatch(string messagem,int no);
         CallAndCatch _CAC;
-        public void startClient(Socket clientSocket, int No,Server server)
+        public void startClient(Socket clientSocket, int No, Server server)
         {
             _CAC = new CallAndCatch(server.CallAndCatch);
             this.clientSocket = clientSocket;
