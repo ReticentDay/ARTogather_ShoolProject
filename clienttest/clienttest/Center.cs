@@ -5,15 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Sockets;
+using client;
 
 namespace clienttest
 {
-    class Center
+    public class Center
     {
-        Client client = new Client();
-        public void Start()
+        Client myClient;
+        public void tryClient()
         {
-            client.StartClient();
+            myClient = new Client();
+            myClient.StartClient();
+            myClient.WriteData("try");
         }
     }
 }

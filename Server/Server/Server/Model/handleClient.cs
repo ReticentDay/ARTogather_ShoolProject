@@ -30,15 +30,24 @@ namespace Server
         {
             while (true)
             {
+                if (!clientSocket.Connected)
+                    break;
                 try
                 {
                     int dataLength;
                     byte[] myBufferBytes = new byte[1000];
                     //取得用戶端寫入的資料
                     dataLength = clientSocket.Receive(myBufferBytes);
-                    Log.WriteTime("取出用戶端寫入網路資料流的資料內容 :");
-                    Log.WriteTime(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength) + "\n");
-                    _CAC.Invoke(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength),No);
+                    if (dataLength > 0)
+                    {
+                        Log.WriteTime("取出用戶端寫入網路資料流的資料內容 :");
+                        Log.WriteTime(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength) + "\n");
+                        _CAC.Invoke(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength), No);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -66,6 +75,7 @@ namespace Server
         {
             try
             {
+                clientSocket.Shutdown(SocketShutdown.Both);
                 clientSocket.Close();
                 clientThread.Abort();
                 clientThread.Join();

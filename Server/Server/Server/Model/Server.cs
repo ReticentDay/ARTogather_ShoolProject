@@ -42,7 +42,14 @@ namespace Server
             int counter = 0;
             do
             {
-                clientSocket = myTcpListener.AcceptSocket();
+                try
+                {
+                    clientSocket = myTcpListener.AcceptSocket();
+                }
+                catch (Exception e)
+                {
+
+                }
                 try
                 {
                     if (clientSocket.Connected)
@@ -52,7 +59,7 @@ namespace Server
                         handleClient client = new handleClient();
                         client.startClient(clientSocket, counter,this);
                         _clientList.Add(client);
-                        _clientList[0].SendMessage("123");
+                        //_clientList[0].SendMessage("123");
                     }
                 }
                 catch (Exception e)
@@ -60,7 +67,6 @@ namespace Server
                 }
             } while (true);
             
-            myTcpListener.Stop();
         }
 
         public void SendMessage(string message)
@@ -88,10 +94,10 @@ namespace Server
 
         public void StopServer()
         {
+            myTcpListener.Stop();
             try
             {
                 clientSocket.Close();
-                myTcpListener.Stop();
             }
             catch (Exception e) { }
             try
@@ -100,7 +106,10 @@ namespace Server
                 startServer.Join();
                 startServer = null;
             }
-            catch (Exception e) { }
+            catch (Exception e) {
+                
+            }
+           
 
             Log.WriteTime("Info:Sever服務已被關閉");
         }

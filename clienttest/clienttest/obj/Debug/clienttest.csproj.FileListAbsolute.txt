@@ -13,7 +13,10 @@ D:\專題\SchoolProject\clienttest\clienttest\obj\Debug\clienttest.csprojResolve
 D:\work\ARTogather\clienttest\clienttest\bin\Debug\clienttest.exe.config
 D:\work\ARTogather\clienttest\clienttest\bin\Debug\clienttest.exe
 D:\work\ARTogather\clienttest\clienttest\bin\Debug\clienttest.pdb
-D:\work\ARTogather\clienttest\clienttest\obj\Debug\clienttest.csprojResolveAssemblyReference.cache
 D:\work\ARTogather\clienttest\clienttest\obj\Debug\clienttest.csproj.CoreCompileInputs.cache
 D:\work\ARTogather\clienttest\clienttest\obj\Debug\clienttest.exe
 D:\work\ARTogather\clienttest\clienttest\obj\Debug\clienttest.pdb
+D:\work\ARTogather\clienttest\clienttest\obj\Debug\clienttest.csprojAssemblyReference.cache
+D:\work\ARTogather\clienttest\clienttest\obj\Debug\clienttest.csproj.CopyComplete
+D:\work\ARTogather\clienttest\clienttest\bin\Debug\client.dll
+D:\work\ARTogather\clienttest\clienttest\bin\Debug\client.pdb

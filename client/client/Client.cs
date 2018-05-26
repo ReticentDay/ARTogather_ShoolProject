@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading;
 using System.Net.Sockets;
+using System.Collections.Generic;
 
 namespace client
 {
@@ -11,67 +12,97 @@ namespace client
         NetworkStream myNetworkStream;
         //宣告 Tcp 用戶端物件
         TcpClient myTcpClient;
+        //宣告執行續
+        Thread _readData;
+
+        List<string> _messageList;
+
+        string _hostName;
+        int _connectPort;
+
+        //初始化Client端
+        public Client(string hostName = "127.0.0.1", int connectPort = 36000)
+        {
+            _hostName = hostName;
+            _connectPort = connectPort;
+            _messageList = new List<string>();
+        }
+
         public void StartClient()
         {
-            Thread readData;
-            //取得主機名稱
-            string hostName = "127.0.0.1";
-            //取得連線 IP 位址
-            int connectPort = 36000;
-            //建立 TcpClient 物件
             myTcpClient = new TcpClient();
-            readData = new Thread(new ThreadStart(ReadData));
-            readData.Start();
+
+            //測試連線至遠端主機
             try
             {
-                //測試連線至遠端主機
-                myTcpClient.Connect(hostName, connectPort);
-                Console.WriteLine("連線成功 !!\n");
+                myTcpClient.Connect(_hostName, _connectPort);
+                _readData = new Thread(new ThreadStart(ReadData));
+                _readData.IsBackground = true;
+                _readData.Start();
             }
             catch
             {
-                Console.Write("主機 {0} 通訊埠 {1} 無法連接  !!", hostName, connectPort);
-
-            }
-            while (true)
-            {
-                String strings = Console.ReadLine();
-                WriteData(strings);
+                throw new NetException("主機無法連接");
             }
         }
 
         //寫入資料
-        void WriteData(String strTest)
+        public void WriteData(String strTest)
         {
-            //將字串轉 byte 陣列，使用 ASCII 編碼
             Byte[] myBytes = Encoding.ASCII.GetBytes(strTest);
-
-            Console.WriteLine("建立網路資料流 !!");
-            //建立網路資料流
             myNetworkStream = myTcpClient.GetStream();
-
-            Console.WriteLine("將字串寫入資料流　!!");
-            //將字串寫入資料流
             myNetworkStream.Write(myBytes, 0, myBytes.Length);
+            //myNetworkStream.Close();
         }
 
         //讀取資料
         void ReadData()
         {
-            Console.WriteLine("從網路資料流讀取資料 !!");
-            //從網路資料流讀取資料
-            myNetworkStream = myTcpClient.GetStream();
-            int bufferSize = myTcpClient.ReceiveBufferSize;
-            byte[] myBufferBytes = new byte[bufferSize];
-            myNetworkStream.Read(myBufferBytes, 0, bufferSize);
-            //取得資料並且解碼文字
-            int i = 0;
-            while (myBufferBytes[i] != 0)
+            while (true)
             {
-                Console.Write(Encoding.ASCII.GetString(myBufferBytes, i, 1));
-                i++;
+                myNetworkStream = myTcpClient.GetStream();
+                int bufferSize = myTcpClient.ReceiveBufferSize;
+                byte[] myBufferBytes = new byte[bufferSize];
+                myNetworkStream.Read(myBufferBytes, 0, bufferSize);
+                int i = 0;
+                string message = "";
+                while (myBufferBytes[i] != 0)
+                {
+                    message += Encoding.ASCII.GetString(myBufferBytes, i, 1);
+                    i++;
+                }
+                _messageList.Add(message);
             }
         }
-        public void GetData(string data) { }
+
+        public void StopClient()
+        {
+            try
+            {
+                myNetworkStream.Close();
+                myTcpClient.Close();
+                _readData.Abort();
+                _readData.Join();
+                _readData = null;
+            }
+            catch (Exception e)
+            {
+                throw new NetException(e.Message);
+            }
+        }
+
+        public string ReadMessage()
+        {
+            if (_messageList.Count <= 0)
+                throw new NetException("message list內無任何訊息");
+            string message = _messageList[0];
+            _messageList.RemoveAt(0);
+            return message;
+        }
+
+        public int GetMessageListCount()
+        {
+            return _messageList.Count;
+        }
     }
 }
