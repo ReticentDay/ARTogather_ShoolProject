@@ -18,7 +18,6 @@ namespace clienttest
                 myClist.StartClient();
                 myClist.WriteData("try");
                 //Thread.Sleep(1000);
-
                 myClist.WriteData("try2");
                 myClist.StopClient();
             }

@@ -15,6 +15,10 @@ namespace client
         //宣告執行續
         Thread _readData;
 
+        //宣告委託介面
+        public delegate void CallAndCatch();
+        public CallAndCatch _CAC;
+
         List<string> _messageList;
 
         string _hostName;
@@ -26,7 +30,10 @@ namespace client
             _hostName = hostName;
             _connectPort = connectPort;
             _messageList = new List<string>();
+            _CAC = new CallAndCatch(CAC);
         }
+
+        void CAC() { }
 
         public void StartClient()
         {
@@ -72,6 +79,7 @@ namespace client
                     i++;
                 }
                 _messageList.Add(message);
+                _CAC.Invoke();
             }
         }
 

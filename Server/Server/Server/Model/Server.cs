@@ -18,9 +18,12 @@ namespace Server
         ManualResetEvent _shutdownEvent;
         Socket clientSocket;
         List<handleClient> _clientList;
+        LoadFile _LF;
+        List<string> FileList;
         public Server()
         {
-            
+            _LF = new LoadFile();
+            FileList = _LF.ReadIndex();
         }
 
         public void StartServer()
@@ -84,11 +87,82 @@ namespace Server
 
         public void SendMessage(string message, string type)
         {
-
+            for (int i = 0; i < _clientList.Count(); i++)
+            {
+                if(_clientList[i].type == type)
+                    _clientList[i].SendMessage(message);
+            }
         }
 
         public void CallAndCatch(string message,int no)
         {
+            string[] messages = message.Split(':');
+            if (messages[0] == "Need")
+            {
+                string table = messages[1];
+                if (FileList.FindIndex(item => item == table) == -1)
+                {
+                    SendMessage("Error:No fide data", no);
+                }
+                else
+                {
+                    List<string> fileData = _LF.ReadData(table);
+                    _clientList[no].type = table;
+                    for (int i = 0; i < fileData.Count; i++)
+                    {
+                        SendMessage(fileData[i],no);
+                    }
+                }
+            }
+            else if(messages[0] == "fix")
+            {
+                if (_clientList[no].type != "none")
+                {
+                    List<string> IdList = _LF.ReadData(_clientList[no].type, "Id = " + messages[1]);
+                    if (IdList.Count > 0)
+                    {
+                        try
+                        {
+                            _LF.UpdateData(_clientList[no].type, Int32.Parse(messages[1]), Int32.Parse(messages[2]), Int32.Parse(messages[3]), Int32.Parse(messages[4]));
+                            SendMessage(message, _clientList[no].type);
+                        }
+                        catch (FormatException e)
+                        {
+                            SendMessage("Error:Data Type Error", no);
+                        }
+                    }
+                    else
+                    {
+                        SendMessage("Error:No find data", no);
+                    }
+                }
+                else
+                {
+                    SendMessage("Error:No have type", no);
+                }
+            }
+            else if (messages[0] == "add")
+            {
+                if (_clientList[no].type != "none")
+                {
+                    try
+                    {
+                        int x = Int32.Parse(messages[2]);
+                        int y = Int32.Parse(messages[3]);
+                        int z = Int32.Parse(messages[4]);
+                        string Data = _LF.InsetData(_clientList[no].type, "Type,X,Y,Z", messages[1] + "," + x.ToString() + "," + y.ToString() + "," + z.ToString());
+                        SendMessage("add:" + Data, _clientList[no].type);
+                    }
+                    catch (FormatException e)
+                    {
+                        SendMessage("Error:Data Type Error", no);
+                    }
+                }
+                else
+                {
+                    SendMessage("Error:No have type", no);
+                }
+            }
 
         }
 

@@ -40,13 +40,13 @@ CREATE TABLE IndexList (
             sqlite_connect = new SQLiteConnection("data source = database.db");
             sqlite_connect.Open();
             sqlite_cmd = sqlite_connect.CreateCommand();
-            sqlite_cmd.CommandText = @"select * from " + table+ " where " + condition + ");";
+            sqlite_cmd.CommandText = @"select * from " + table+ " where " + condition + ";";
             SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
 
             List<string> data = new List<string>();
             while (sqlite_datareader.Read()) //read every data
             {
-                string listData = sqlite_datareader["Type"].ToString() + ":" + sqlite_datareader["X"].ToString() + " " + sqlite_datareader["Y"].ToString() + " " + sqlite_datareader["Z"].ToString();
+                string listData = sqlite_datareader["Id"].ToString() + ":" + sqlite_datareader["Type"].ToString() + ":" + sqlite_datareader["X"].ToString() + ":" + sqlite_datareader["Y"].ToString() + ":" + sqlite_datareader["Z"].ToString();
                 data.Add(listData);
             }
             sqlite_connect.Close();
@@ -64,21 +64,27 @@ CREATE TABLE IndexList (
             List<string> data = new List<string>();
             while (sqlite_datareader.Read()) //read every data
             {
-                string listData = sqlite_datareader["Type"].ToString() + ":" + sqlite_datareader["X"].ToString() + " " + sqlite_datareader["Y"].ToString() + " " + sqlite_datareader["Z"].ToString();
+                string listData = sqlite_datareader["Id"].ToString() + ":" + sqlite_datareader["Type"].ToString() + ":" + sqlite_datareader["X"].ToString() + ":" + sqlite_datareader["Y"].ToString() + ":" + sqlite_datareader["Z"].ToString();
                 data.Add(listData);
             }
             sqlite_connect.Close();
             return data;
         }
 
-        public void InsetData(string table,string column, string value)
+        public string InsetData(string table,string column, string value)
         {
             sqlite_connect = new SQLiteConnection("data source = database.db");
             sqlite_connect.Open();
             sqlite_cmd = sqlite_connect.CreateCommand();
             sqlite_cmd.CommandText = @"INSERT INTO " + table + " (" + column + ") values (" + value + ");";
             sqlite_cmd.ExecuteNonQuery();
+            sqlite_cmd.CommandText = @"SELECT * FROM " + table+ "ORDER BY Id DESC LIMIT 1;";
+            sqlite_cmd.ExecuteNonQuery();
+            SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
+            sqlite_datareader.Read();
+            string listData = sqlite_datareader["Id"].ToString() + ":" + sqlite_datareader["Type"].ToString() + ":" + sqlite_datareader["X"].ToString() + ":" + sqlite_datareader["Y"].ToString() + ":" + sqlite_datareader["Z"].ToString();
             sqlite_connect.Close();
+            return listData;
         }
 
         public void CreatFile(string tableName)
@@ -96,6 +102,34 @@ CREATE TABLE " + tableName + @" (
 );";
             sqlite_cmd.ExecuteNonQuery();
             sqlite_cmd.CommandText = @"INSERT INTO IndexList (Name) values ('" + tableName + "');";
+            sqlite_cmd.ExecuteNonQuery();
+            sqlite_connect.Close();
+        }
+
+        public List<string> ReadIndex()
+        {
+            sqlite_connect = new SQLiteConnection("data source = database.db");
+            sqlite_connect.Open();
+            sqlite_cmd = sqlite_connect.CreateCommand();
+            sqlite_cmd.CommandText = @"select * from  IndexList;";
+            SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+            List<string> data = new List<string>();
+            while (sqlite_datareader.Read()) //read every data
+            {
+                string listData = sqlite_datareader["Name"].ToString();
+                data.Add(listData);
+            }
+            sqlite_connect.Close();
+            return data;
+        }
+
+        public void UpdateData(string table, int id,int x,int y,int z)
+        {
+            sqlite_connect = new SQLiteConnection("data source = database.db");
+            sqlite_connect.Open();
+            sqlite_cmd = sqlite_connect.CreateCommand();
+            sqlite_cmd.CommandText ="UPDATE " + table + " SET X = " + x.ToString() + " ,Y = " + y.ToString() + ", Z = " + z.ToString() + "WHERE Id = " + id + ";";
             sqlite_cmd.ExecuteNonQuery();
             sqlite_connect.Close();
         }

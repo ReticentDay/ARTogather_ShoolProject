@@ -16,6 +16,7 @@ namespace Server
         int No;
         public delegate void CallAndCatch(string messagem,int no);
         CallAndCatch _CAC;
+        public string type;
         public void startClient(Socket clientSocket, int No, Server server)
         {
             _CAC = new CallAndCatch(server.CallAndCatch);
@@ -24,6 +25,7 @@ namespace Server
             clientThread = new Thread(reply);
             clientThread.IsBackground = true;
             clientThread.Start();
+            type = "none";
         }
 
         private void reply()
