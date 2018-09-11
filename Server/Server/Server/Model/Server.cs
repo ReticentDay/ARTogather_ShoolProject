@@ -11,7 +11,7 @@ namespace Server
     public class Server
     {
         static int port = 36000;
-        static string ip = "127.0.0.1";
+        static string ip = "192.168.1.110";
         System.Net.IPAddress theIPAddress;
         TcpListener myTcpListener;
         Thread startServer;
@@ -92,6 +92,7 @@ namespace Server
                 if(_clientList[i].type == type)
                     _clientList[i].SendMessage(message);
             }
+            Log.WriteTime("Info:已全數傳完");
         }
 
         public void CallAndCatch(string message,int no)
@@ -103,6 +104,7 @@ namespace Server
                 if (FileList.FindIndex(item => item == table) == -1)
                 {
                     SendMessage("Error:No fide data", no);
+                    Thread.Sleep(100);
                 }
                 else
                 {
@@ -110,7 +112,7 @@ namespace Server
                     _clientList[no].type = table;
                     for (int i = 0; i < fileData.Count; i++)
                     {
-                        SendMessage(fileData[i],no);
+                        SendMessage("add:"+fileData[i],no);
                     }
                 }
             }
@@ -123,7 +125,7 @@ namespace Server
                     {
                         try
                         {
-                            _LF.UpdateData(_clientList[no].type, Int32.Parse(messages[1]), Int32.Parse(messages[2]), Int32.Parse(messages[3]), Int32.Parse(messages[4]));
+                            _LF.UpdateData(_clientList[no].type, int.Parse(messages[1]), float.Parse(messages[2]), float.Parse(messages[3]), float.Parse(messages[4]));
                             SendMessage(message, _clientList[no].type);
                         }
                         catch (FormatException e)
@@ -147,10 +149,10 @@ namespace Server
                 {
                     try
                     {
-                        int x = Int32.Parse(messages[2]);
-                        int y = Int32.Parse(messages[3]);
-                        int z = Int32.Parse(messages[4]);
-                        string Data = _LF.InsetData(_clientList[no].type, "Type,X,Y,Z", messages[1] + "," + x.ToString() + "," + y.ToString() + "," + z.ToString());
+                        float x = float.Parse(messages[2]);
+                        float y = float.Parse(messages[3]);
+                        float z = float.Parse(messages[4]);
+                        string Data = _LF.InsetData(_clientList[no].type, "Type,X,Y,Z", "'" + messages[1] + "'," + x.ToString() + "," + y.ToString() + "," + z.ToString());
                         SendMessage("add:" + Data, _clientList[no].type);
                     }
                     catch (FormatException e)

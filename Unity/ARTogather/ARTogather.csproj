@@ -224,6 +224,9 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="client">
+      <HintPath>Assets/plugins/client.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
@@ -247,6 +250,7 @@
     <Compile Include="Assets\script\MainControler.cs" />
     <Compile Include="Assets\script\PointScript.cs" />
     <Compile Include="Assets\script\rayOnhit.cs" />
+    <Compile Include="Assets\script\TryToLink.cs" />
     <Compile Include="Assets\Vuforia\Scripts\DefaultInitializationErrorHandler.cs" />
     <Compile Include="Assets\Vuforia\Scripts\DefaultTrackableEventHandler.cs" />
   </ItemGroup>

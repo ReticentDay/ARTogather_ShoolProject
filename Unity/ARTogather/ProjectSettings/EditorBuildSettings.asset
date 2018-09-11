@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/example/scenes/start.unity
+    guid: 7af2ace7b404c32448cf72957bde69c5
+  - enabled: 1
     path: Assets/example/scenes/BuildingBlockVuforia.unity
     guid: a6bf11979a637544b8c43161052f5f22
-  - enabled: 0
+  - enabled: 1
     path: Assets/example/scenes/BuildingBlock.unity
     guid: e54ff957e3fe9804682cea936a92e7ae

@@ -16,7 +16,7 @@ namespace client
         Thread _readData;
 
         //宣告委託介面
-        public delegate void CallAndCatch();
+        public delegate void CallAndCatch(string ss);
         public CallAndCatch _CAC;
 
         List<string> _messageList;
@@ -33,7 +33,7 @@ namespace client
             _CAC = new CallAndCatch(CAC);
         }
 
-        void CAC() { }
+        void CAC(string ss) { }
 
         public void StartClient()
         {
@@ -49,7 +49,7 @@ namespace client
             }
             catch
             {
-                throw new NetException("主機無法連接");
+                throw new NetException("主機無法連接，IP:" + _hostName);
             }
         }
 
@@ -79,7 +79,7 @@ namespace client
                     i++;
                 }
                 _messageList.Add(message);
-                _CAC.Invoke();
+                _CAC.Invoke(message);
             }
         }
 
@@ -97,20 +97,6 @@ namespace client
             {
                 throw new NetException(e.Message);
             }
-        }
-
-        public string ReadMessage()
-        {
-            if (_messageList.Count <= 0)
-                throw new NetException("message list內無任何訊息");
-            string message = _messageList[0];
-            _messageList.RemoveAt(0);
-            return message;
-        }
-
-        public int GetMessageListCount()
-        {
-            return _messageList.Count;
         }
     }
 }

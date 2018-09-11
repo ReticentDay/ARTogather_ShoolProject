@@ -44,7 +44,7 @@ namespace Server
                     {
                         Log.WriteTime("取出用戶端寫入網路資料流的資料內容 :");
                         Log.WriteTime(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength) + "\n");
-                        _CAC.Invoke(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength), No);
+                        _CAC.Invoke(Encoding.ASCII.GetString(myBufferBytes, 0, dataLength), No-1);
                     }
                     else
                     {
