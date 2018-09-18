@@ -10,7 +10,9 @@ public class ScenesControl : MonoBehaviour
 {
     public GameObject selectPack;
     public NetworkManagerHUD hud;
+    public NetworkManager nm;
     public string packName;
+    public GameObject IPAdress;
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class ScenesControl : MonoBehaviour
         string loadPath = Application.dataPath;
 #endif
         hud = gameObject.GetComponent<NetworkManagerHUD>();
+        nm = gameObject.GetComponent<NetworkManager>();
         string []pathList = Directory.GetFiles(loadPath + "/AssetBundles/");
         List<string> optionList = new List<string>();
         foreach(var item in pathList)
@@ -45,5 +48,17 @@ public class ScenesControl : MonoBehaviour
             hud.offsetX = Screen.width - 215; ;
             hud.offsetY = -50;
         }
+    }
+
+    public void CreatHost()
+    {
+        nm.StartHost();
+    }
+
+    public void LinkHost()
+    {
+        nm.networkAddress = IPAdress.transform.Find("Text").GetComponent<Text>().text;
+        Debug.Log(IPAdress.transform.Find("Text").GetComponent<Text>().text);
+        nm.StartClient();
     }
 }

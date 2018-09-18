@@ -46,7 +46,12 @@ public class ClientMaster : NetworkBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+
+#if UNITY_IOS || UNITY_ANDROID
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) && isLocalPlayer)
+#else
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && isLocalPlayer)
+#endif
         {
             if (cube.ob != null)
             {

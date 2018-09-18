@@ -1,0 +1,45 @@
+ManifestFileVersion: 0
+CRC: 2093083409
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2bdf541497b4b432a4ae8c1502eaaa30
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 102c5061709af21dddef89e46387f821
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Chess/Prefab/index.json
+- Assets/Chess/Prefab/White King.prefab
+- Assets/Chess/Prefab/White Queen.prefab
+- Assets/Chess/Prefab/White Knight.prefab
+- Assets/Chess/Prefab/Black Bishop.prefab
+- Assets/Chess/Prefab/Black King.prefab
+- Assets/Chess/Prefab/Board.prefab
+- Assets/Chess/Prefab/Black Pawn.prefab
+- Assets/Chess/Prefab/Black Rook.prefab
+- Assets/Chess/Prefab/White Rook.prefab
+- Assets/Chess/Prefab/Black Knight.prefab
+- Assets/Chess/Prefab/White Pawn.prefab
+- Assets/Chess/Prefab/Black Queen.prefab
+- Assets/Chess/Prefab/White Bishop.prefab
+Dependencies: []
