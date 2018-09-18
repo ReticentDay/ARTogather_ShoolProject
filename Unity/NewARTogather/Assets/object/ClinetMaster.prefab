@@ -87,4 +87,5 @@ MonoBehaviour:
   CreateObject: {fileID: 1113510775386846, guid: 89383fa2c8945b947a2b62533b9d811d,
     type: 2}
   okButton: {fileID: 0}
-  addButton: {fileID: 0}
+  addButton: {fileID: 1798149454042148, guid: 464bfdccc93a5fa4a9703c560b8db053, type: 2}
+  plant: {fileID: 0}

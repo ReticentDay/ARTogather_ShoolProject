@@ -15,6 +15,7 @@ public class ClientMaster : NetworkBehaviour
 
     public GameObject okButton;
     public GameObject addButton;
+    public GameObject plant;
     int controlMode = 0;
 
     public Dictionary< string, ObjectMap > OM = new Dictionary<string, ObjectMap>();
@@ -29,10 +30,6 @@ public class ClientMaster : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        ObjectMap temp;
-        temp.ob = CreateObject;
-        temp.movePotionX = temp.movePotionY = temp.movePotionZ = 0.5f;
-        OM.Add("cube", temp);
         if (isServer)
         {
             GM = GameObject.Find("ServerMaster").GetComponent<ServerMaster>();
@@ -41,8 +38,6 @@ public class ClientMaster : NetworkBehaviour
         if (isLocalPlayer)
         {
             okButton = GameObject.Find("OKButton");
-            addButton = GameObject.Find("AddObject");
-            addButton.GetComponent<Button>().onClick.AddListener(AddTempObject);
             okButton.GetComponent<Button>().onClick.AddListener(CheckOK);
             CmdGetAllObject();
         }
@@ -58,29 +53,25 @@ public class ClientMaster : NetworkBehaviour
                 RaycastHit hit;
                 int layerMask = 1 << (LayerMask.NameToLayer("noRay"));
                 layerMask = ~layerMask;
-                //layerMask = ~layerMask;
-                if (Physics.Raycast(ray, out hit, 30.0f, layerMask))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                 {
-                    //Debug.DrawLine(Camera.main.transform.position, hit.transform.position, Color.red, 0.1f, true);
-                    //Debug.Log(hit.transform.position);
-                    //Debug.Log("x:" + hit.point.x + " y:" + hit.point.y + " z:" + hit.point.z);
                     Vector3 path = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                     float[] lenX = new float[] { Mathf.Abs(hit.transform.position.x - path.x), Mathf.Abs(hit.transform.position.y - path.y), Mathf.Abs(hit.transform.position.z - path.z) };
-                    if (lenX[0] >= lenX[1] && lenX[0] >= lenX[2])
+                    if (Math.Round(lenX[0], 3) >= Math.Round(hit.collider.bounds.size.x / 2, 3))
                     {
                         if (hit.transform.position.x - path.x > 0)
                             path.x -= cube.movePotionX;
                         else
                             path.x += cube.movePotionX;
                     }
-                    else if (lenX[1] >= lenX[0] && lenX[1] >= lenX[2])
+                    else if (Math.Round(lenX[1], 3) >= Math.Round(hit.collider.bounds.size.y / 2, 3))
                     {
                         if (hit.transform.position.y - path.y > 0)
                             path.y -= cube.movePotionY;
                         else
                             path.y += cube.movePotionY;
                     }
-                    else if (lenX[2] >= lenX[1] && lenX[2] >= lenX[0])
+                    else if (Math.Round(lenX[2], 3) >= Math.Round(hit.collider.bounds.size.z / 2, 3))
                     {
                         if (hit.transform.position.z - path.z > 0)
                             path.z -= cube.movePotionZ;
@@ -98,7 +89,7 @@ public class ClientMaster : NetworkBehaviour
                 int layerMask = 1 << (LayerMask.NameToLayer("noRay"));
                 layerMask = ~layerMask;
                 //layerMask = ~layerMask;
-                if (Physics.Raycast(ray, out hit, 30.0f, layerMask))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                 {
                     string[] objectName = hit.transform.gameObject.name.Split('_');
                     if (objectName.Length == 2)
@@ -120,15 +111,15 @@ public class ClientMaster : NetworkBehaviour
         }
     }
 
-    void AddTempObject()
+    void AddTempObject(string typeName)
     {
         if (cube.ob != null)
             CheckOK();
-        cube.ob = Instantiate(OM["cube"].ob);
-        cubeName = "cube";
-        cube.movePotionX = OM["cube"].movePotionX;
-        cube.movePotionY = OM["cube"].movePotionY;
-        cube.movePotionZ = OM["cube"].movePotionZ;
+        cube.ob = Instantiate(OM[typeName].ob);
+        cubeName = typeName;
+        cube.movePotionX = OM[typeName].movePotionX;
+        cube.movePotionY = OM[typeName].movePotionY;
+        cube.movePotionZ = OM[typeName].movePotionZ;
         cube.ob.transform.position = new Vector3(0, 0.5f, 0);
         cube.ob.name = cube.ob.name.Replace("(Clone)", "");
         cube.ob.gameObject.layer = LayerMask.NameToLayer("noRay");
@@ -202,6 +193,40 @@ public class ClientMaster : NetworkBehaviour
         {
             Debug.Log("Fix");
             GameObject.Find(type + "_" + name).transform.position = position;
+        }
+    }
+
+    [ClientRpc]
+    public void RpcReadAbb(string bundleName)
+    {
+        if (isLocalPlayer)
+        {
+
+            var bu = AssetBundle.LoadFromFile(Application.dataPath + "/AssetBundles/" + bundleName);
+            string json = bu.LoadAsset("index").ToString();
+            var loadData = JsonUtility.FromJson<JsonRead>(json);
+            foreach (var item in loadData.objct)
+            {
+                if (item.type == "object")
+                {
+                    ObjectMap tmp = new ObjectMap();
+                    tmp.ob = bu.LoadAsset(item.Name) as GameObject;
+                    tmp.movePotionX = item.MovePotion[0];
+                    tmp.movePotionY = item.MovePotion[1];
+                    tmp.movePotionZ = item.MovePotion[2];
+                    OM.Add(item.Name, tmp);
+                }
+            }
+            plant = GameObject.Find("Panel");
+            int i = 0;
+            foreach (var item in loadData.playerHas)
+            {
+                GameObject tmp = Instantiate(addButton, plant.transform);
+                tmp.GetComponent<Button>().onClick.AddListener(() => AddTempObject(item));
+                tmp.transform.Find("Text").GetComponent<Text>().text = item;
+                tmp.GetComponent<RectTransform>().localPosition = new Vector2(50 + 100 * i , 0);
+                i++;
+            }
         }
     }
 }
