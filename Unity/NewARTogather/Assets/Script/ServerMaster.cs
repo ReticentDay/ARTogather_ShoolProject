@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public struct ObjectInfo
 {
@@ -36,11 +37,18 @@ public class ServerMaster: MonoBehaviour
 {
     public List<ClientMaster> allPlayer = new List<ClientMaster>();
     public List<ObjectInfo> objectList = new List<ObjectInfo>();
-    public string openPack = "chess.art";
+    public string openPack;
 
     private void Start()
     {
-        var bu = AssetBundle.LoadFromFile(Application.dataPath + "/AssetBundles/" + openPack);
+#if UNITY_IOS || UNITY_ANDROID
+        string loadPath = Application.persistentDataPath;
+#else
+        string loadPath = Application.dataPath;
+#endif
+        Debug.Log(GameObject.Find("NetworkMng").GetComponent<ScenesControl>().packName);
+        openPack = GameObject.Find("NetworkMng").GetComponent<ScenesControl>().packName + ".art";
+        var bu = AssetBundle.LoadFromFile(loadPath + "/AssetBundles/" + openPack);
         string json = bu.LoadAsset("index").ToString();
         var loadData = JsonUtility.FromJson<JsonRead>(json);
         foreach (var item in loadData.basePlant)

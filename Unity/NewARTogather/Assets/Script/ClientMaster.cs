@@ -7,6 +7,7 @@ using System;
 
 public class ClientMaster : NetworkBehaviour
 {
+
     ServerMaster GM;
 
     ObjectMap cube;
@@ -201,8 +202,12 @@ public class ClientMaster : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-
-            var bu = AssetBundle.LoadFromFile(Application.dataPath + "/AssetBundles/" + bundleName);
+#if UNITY_IOS || UNITY_ANDROID
+            string loadPath = Application.persistentDataPath;
+#else
+            string loadPath = Application.dataPath;
+#endif
+            var bu = AssetBundle.LoadFromFile(loadPath + "/AssetBundles/" + bundleName);
             string json = bu.LoadAsset("index").ToString();
             var loadData = JsonUtility.FromJson<JsonRead>(json);
             foreach (var item in loadData.objct)

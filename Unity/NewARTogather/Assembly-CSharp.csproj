@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Script\ClientMaster.cs" />
     <Compile Include="Assets\Script\GameControl.cs" />
+    <Compile Include="Assets\Script\ScenesControl.cs" />
     <Compile Include="Assets\Script\ServerMaster.cs" />
     <None Include="Assets\Script\01.shader" />
     <Reference Include="UnityEditor.StandardEvents">
