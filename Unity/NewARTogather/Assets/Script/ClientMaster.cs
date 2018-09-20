@@ -18,6 +18,7 @@ public class ClientMaster : NetworkBehaviour
     public GameObject addButton;
     public GameObject plant;
     int controlMode = 0;
+    public Camera cameras;
 
     public Dictionary< string, ObjectMap > OM = new Dictionary<string, ObjectMap>();
     public struct ObjectMap
@@ -31,6 +32,8 @@ public class ClientMaster : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        if (cameras == null)
+            cameras = Camera.main;
         if (isServer)
         {
             GM = GameObject.Find("ServerMaster").GetComponent<ServerMaster>();
@@ -47,10 +50,10 @@ public class ClientMaster : NetworkBehaviour
 	// Update is called once per frame
 	void Update () {
 
-#if UNITY_IOS || UNITY_ANDROID
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) && isLocalPlayer)
-#else
+#if UNITY_EDITOR
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && isLocalPlayer)
+#elif UNITY_IOS || UNITY_ANDROID
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) && isLocalPlayer)
 #endif
         {
             if (cube.ob != null)
@@ -63,26 +66,33 @@ public class ClientMaster : NetworkBehaviour
                 {
                     Vector3 path = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                     float[] lenX = new float[] { Mathf.Abs(hit.transform.position.x - path.x), Mathf.Abs(hit.transform.position.y - path.y), Mathf.Abs(hit.transform.position.z - path.z) };
+                    
+                    Debug.Log(hit.transform.name + ":" + hit.transform.position);
+                    Debug.Log("point:" + hit.point);
+                    Debug.Log("len:" + lenX[0] + " " + lenX[1] + " " + lenX[2]);
                     if (Math.Round(lenX[0], 3) >= Math.Round(hit.collider.bounds.size.x / 2, 3))
                     {
+                        Debug.Log("X");
                         if (hit.transform.position.x - path.x > 0)
-                            path.x -= cube.movePotionX;
+                            path.x -= cube.movePotionX * GameObject.Find("basePut").transform.lossyScale.x;
                         else
-                            path.x += cube.movePotionX;
+                            path.x += cube.movePotionX * GameObject.Find("basePut").transform.lossyScale.x;
                     }
                     else if (Math.Round(lenX[1], 3) >= Math.Round(hit.collider.bounds.size.y / 2, 3))
                     {
+                        Debug.Log("Y");
                         if (hit.transform.position.y - path.y > 0)
-                            path.y -= cube.movePotionY;
+                            path.y -= cube.movePotionY * GameObject.Find("basePut").transform.lossyScale.y;
                         else
-                            path.y += cube.movePotionY;
+                            path.y += cube.movePotionY * GameObject.Find("basePut").transform.lossyScale.y;
                     }
                     else if (Math.Round(lenX[2], 3) >= Math.Round(hit.collider.bounds.size.z / 2, 3))
                     {
+                        Debug.Log("Z");
                         if (hit.transform.position.z - path.z > 0)
-                            path.z -= cube.movePotionZ;
+                            path.z -= cube.movePotionZ * GameObject.Find("basePut").transform.lossyScale.z;
                         else
-                            path.z += cube.movePotionZ;
+                            path.z += cube.movePotionZ * GameObject.Find("basePut").transform.lossyScale.z;
                     }
 
                     cube.ob.gameObject.transform.position = path;
@@ -121,7 +131,7 @@ public class ClientMaster : NetworkBehaviour
     {
         if (cube.ob != null)
             CheckOK();
-        cube.ob = Instantiate(OM[typeName].ob);
+        cube.ob = Instantiate(OM[typeName].ob, GameObject.Find("basePut").transform);
         cubeName = typeName;
         cube.movePotionX = OM[typeName].movePotionX;
         cube.movePotionY = OM[typeName].movePotionY;
@@ -187,7 +197,7 @@ public class ClientMaster : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            GameObject addIt = Instantiate(OM[type].ob, position, rotation);
+            GameObject addIt = Instantiate(OM[type].ob, position, rotation, GameObject.Find("basePut").transform);
             addIt.name = type + "_" + name;
         }
     }

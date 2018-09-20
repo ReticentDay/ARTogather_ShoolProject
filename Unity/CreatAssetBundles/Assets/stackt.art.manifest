@@ -1,0 +1,52 @@
+ManifestFileVersion: 0
+CRC: 3913663487
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4788215017887c98e60449c97c797777
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 09b31d40f192fa680afff43ec5a9e3e7
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+Assets:
+- Assets/stack/Materials/radB.mat
+- Assets/stack/radB.png
+- Assets/stack/blueB.png
+- Assets/stack/yellow.prefab
+- Assets/stack/blackB.png
+- Assets/stack/index.json
+- Assets/stack/Materials/blackB.mat
+- Assets/stack/green.prefab
+- Assets/stack/yellowB.png
+- Assets/stack/blue.prefab
+- Assets/stack/Materials/greenB.mat
+- Assets/stack/black.prefab
+- Assets/stack/whiteB.png
+- Assets/stack/white.prefab
+- Assets/stack/greenB.png
+- Assets/stack/Materials/blueB.mat
+- Assets/stack/Materials/whiteB.mat
+- Assets/stack/rad.prefab
+- Assets/stack/Materials/yellowB.mat
+Dependencies: []

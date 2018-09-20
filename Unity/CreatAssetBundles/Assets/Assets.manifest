@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 3009822988
+CRC: 3100894880
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: chess.art
+      Dependencies: {}
+    Info_1:
+      Name: stackt.art
       Dependencies: {}

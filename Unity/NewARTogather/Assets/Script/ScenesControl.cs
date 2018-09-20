@@ -13,6 +13,7 @@ public class ScenesControl : MonoBehaviour
     public NetworkManager nm;
     public string packName;
     public GameObject IPAdress;
+    public GameObject CheckARCore;
 
     void Start()
     {
@@ -48,6 +49,14 @@ public class ScenesControl : MonoBehaviour
             hud.offsetX = Screen.width - 215; ;
             hud.offsetY = -50;
         }
+        if (CheckARCore.GetComponent<Toggle>().isOn)
+        {
+            nm.onlineScene = "PlayGroundARCore";
+        }
+        else
+        {
+            nm.onlineScene = "PlayGround";
+        }
     }
 
     public void CreatHost()
@@ -57,8 +66,8 @@ public class ScenesControl : MonoBehaviour
 
     public void LinkHost()
     {
-        nm.networkAddress = IPAdress.transform.Find("Text").GetComponent<Text>().text;
-        Debug.Log(IPAdress.transform.Find("Text").GetComponent<Text>().text);
+        nm.networkAddress = IPAdress.GetComponent<InputField>().text;
+        Debug.Log(IPAdress.GetComponent<InputField>().text);
         nm.StartClient();
     }
 }

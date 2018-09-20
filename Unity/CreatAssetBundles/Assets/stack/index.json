@@ -1,0 +1,12 @@
+{
+    "objct":[
+        {"Name":"black", "type":"object", "MovePotion":[1, 1, 1]},
+        {"Name":"blue", "type":"object", "MovePotion":[1, 1, 1]},
+        {"Name":"green", "type":"object", "MovePotion":[1, 1, 1]},
+        {"Name":"rad", "type":"object", "MovePotion":[1, 1, 1]},
+        {"Name":"white", "type":"object", "MovePotion":[1, 1, 1]},
+        {"Name":"yellow", "type":"object", "MovePotion":[1, 1, 1]}
+    ],
+    "basePlant":[],
+    "playerHas":["white", "black", "blue", "green", "rad", "yellow"]
+}
