@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Chess\Demo\Scripts\Main.cs" />
     <Compile Include="Assets\Chess\Scripts\ChessUiEngine.cs" />
+    <Compile Include="Assets\stack\test.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/work/ARTogather/Unity/CreatAssetBundles/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3913663487
+CRC: 2495247785
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4788215017887c98e60449c97c797777
+    Hash: 0a4cc90e46f7df9dc948a9783d54b28f
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 09b31d40f192fa680afff43ec5a9e3e7
+    Hash: 440e3321ccff438579d1a2e99c53d00b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -28,6 +28,10 @@ ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 - Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 187b4d8fee85f374f9d48288181cbd7c, type: 3}
+- Class: 115
   Script: {instanceID: 0}
 Assets:
 - Assets/stack/Materials/radB.mat

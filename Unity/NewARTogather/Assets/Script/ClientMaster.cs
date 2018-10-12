@@ -15,10 +15,12 @@ public class ClientMaster : NetworkBehaviour
     public GameObject CreateObject;
 
     public GameObject okButton;
+    public GameObject cancleButton;
     public GameObject addButton;
     public GameObject plant;
     int controlMode = 0;
     public Camera cameras;
+    Vector3 putPosationl;
 
     public Dictionary< string, ObjectMap > OM = new Dictionary<string, ObjectMap>();
     public struct ObjectMap
@@ -43,6 +45,8 @@ public class ClientMaster : NetworkBehaviour
         {
             okButton = GameObject.Find("OKButton");
             okButton.GetComponent<Button>().onClick.AddListener(CheckOK);
+            cancleButton = GameObject.Find("cancleButton");
+            cancleButton.GetComponent<Button>().onClick.AddListener(CheckCancle);
             CmdGetAllObject();
         }
     }
@@ -65,12 +69,21 @@ public class ClientMaster : NetworkBehaviour
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                 {
                     Vector3 path = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                    float[] lenX = new float[] { Mathf.Abs(hit.transform.position.x - path.x), Mathf.Abs(hit.transform.position.y - path.y), Mathf.Abs(hit.transform.position.z - path.z) };
-                    
-                    Debug.Log(hit.transform.name + ":" + hit.transform.position);
-                    Debug.Log("point:" + hit.point);
-                    Debug.Log("len:" + lenX[0] + " " + lenX[1] + " " + lenX[2]);
-                    if (Math.Round(lenX[0], 3) >= Math.Round(hit.collider.bounds.size.x / 2, 3))
+                    Vector3 pathtmp = new Quaternion(-hit.transform.rotation.x, -hit.transform.rotation.y, -hit.transform.rotation.z, hit.transform.rotation.w) * path;
+                    float[] lenX = new float[] { Mathf.Abs(hit.transform.position.x - pathtmp.x), Mathf.Abs(hit.transform.position.y - pathtmp.y), Mathf.Abs(hit.transform.position.z - pathtmp.z) };
+                    //try
+                    //{
+                    //    GameObject tmp = GameObject.Find("Anchor");
+                    //    lenX[0] /= tmp.transform.lossyScale.x;
+                    //    lenX[1] /= tmp.transform.lossyScale.y;
+                    //    lenX[2] /= tmp.transform.lossyScale.z;
+                    //}
+                    //catch { }
+                    //Debug.Log(hit.transform.name + ":" + hit.transform.position.x + " " + hit.transform.position.y + " " + hit.transform.position.z);
+                    //Debug.Log("point:" + hit.point.x + " " + hit.point.y + " " + hit.point.z);
+                    //Debug.Log("len:" + lenX[0] + " " + lenX[1] + " " + lenX[2]);
+                    //Debug.Log("size:" + hit.collider.bounds.size.x + " " + hit.collider.bounds.size.y + " " + hit.collider.bounds.size.z);
+                    if (Math.Round(lenX[0], 4) >= Math.Round(hit.collider.bounds.size.x / 2, 4))
                     {
                         Debug.Log("X");
                         if (hit.transform.position.x - path.x > 0)
@@ -78,7 +91,7 @@ public class ClientMaster : NetworkBehaviour
                         else
                             path.x += cube.movePotionX * GameObject.Find("basePut").transform.lossyScale.x;
                     }
-                    else if (Math.Round(lenX[1], 3) >= Math.Round(hit.collider.bounds.size.y / 2, 3))
+                    else if (Math.Round(lenX[1], 4) >= Math.Round(hit.collider.bounds.size.y / 2, 4))
                     {
                         Debug.Log("Y");
                         if (hit.transform.position.y - path.y > 0)
@@ -86,7 +99,7 @@ public class ClientMaster : NetworkBehaviour
                         else
                             path.y += cube.movePotionY * GameObject.Find("basePut").transform.lossyScale.y;
                     }
-                    else if (Math.Round(lenX[2], 3) >= Math.Round(hit.collider.bounds.size.z / 2, 3))
+                    else if (Math.Round(lenX[2], 4) >= Math.Round(hit.collider.bounds.size.z / 2, 4))
                     {
                         Debug.Log("Z");
                         if (hit.transform.position.z - path.z > 0)
@@ -115,6 +128,7 @@ public class ClientMaster : NetworkBehaviour
                         controlMode = 2;
                         Debug.Log(controlMode);
                         cube.ob = hit.transform.gameObject;
+                        putPosationl = hit.transform.position;
                         cubeName = objectName[0];
                         cube.movePotionX = OM[cubeName].movePotionX;
                         cube.movePotionY = OM[cubeName].movePotionY;
@@ -145,8 +159,8 @@ public class ClientMaster : NetworkBehaviour
 
     void CheckOK()
     {
-        Debug.Log(this.name);
-        Debug.Log(controlMode);
+        //Debug.Log(this.name);
+        //Debug.Log(controlMode);
         if (controlMode == 1)
         {
             CmdAddObjectInList(cubeName, ObjectStatue.ADD, cube.ob.transform.position, cube.ob.transform.rotation);
@@ -156,8 +170,27 @@ public class ClientMaster : NetworkBehaviour
         }
         else if (controlMode == 2)
         {
-            Debug.Log("Fix");
+            //Debug.Log("Fix");
             CmdFixObjectPath(cube.ob.name, cube.ob.transform.position);
+            cube.ob.GetComponent<MeshRenderer>().material.shader = Shader.Find("Standard");
+            cube.ob.gameObject.layer = 0;
+            cube.ob = null;
+            cubeName = "";
+        }
+        controlMode = 0;
+    }
+
+    void CheckCancle()
+    {
+        if (controlMode == 1)
+        {
+            Destroy(cube.ob);
+            cube.ob = null;
+            cubeName = "";
+        }
+        else if (controlMode == 2)
+        {
+            cube.ob.transform.position = putPosationl;
             cube.ob.GetComponent<MeshRenderer>().material.shader = Shader.Find("Standard");
             cube.ob.gameObject.layer = 0;
             cube.ob = null;

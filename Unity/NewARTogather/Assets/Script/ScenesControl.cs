@@ -24,6 +24,7 @@ public class ScenesControl : MonoBehaviour
 #endif
         hud = gameObject.GetComponent<NetworkManagerHUD>();
         nm = gameObject.GetComponent<NetworkManager>();
+        Debug.Log(loadPath);
         string []pathList = Directory.GetFiles(loadPath + "/AssetBundles/");
         List<string> optionList = new List<string>();
         foreach(var item in pathList)
